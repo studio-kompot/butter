@@ -1,0 +1,45 @@
+programming:
+  - .github/**/*
+  - game/scripts/**/*
+  - .gitignore
+
+renpy:
+  - game/scripts/**/*.rpy
+
+design:
+  - design/**/*
+
+docs:
+  - guide/**/*
+
+gui:
+  - game/gui/**/*
+  - game/guide/gui/**/*
+  - game/scripts/core/gui.rpy
+
+automation:
+  - .github/**/*
+
+web:
+  - docs/**/*
+
+graphics:
+  - game/images/**/*
+  - game/gui/**/*
+
+translation:
+  - game/tl/**/*
+
+mobile:
+  - game/phone/**/*
+
+characters:
+  - game/scripts/core/characters.rpy
+  - design/src/characters/*
+
+storyline:
+  - design/src/storyline
+  - game/scripts/story/**/*
+
+setting:
+  - design/src/setting.md

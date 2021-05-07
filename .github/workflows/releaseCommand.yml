@@ -1,0 +1,54 @@
+on:
+  repository_dispatch:
+    types: [release-command]
+
+jobs:
+  check_init_command:
+    name: run release command
+    runs-on: ubuntu-18.04
+    steps:
+        - name: Check out code
+          uses: actions/checkout@master
+        - name: Build renpy project
+          uses: ProjectAliceDev/renpy-build-action@master
+          with:
+            project-dir: '.'
+          env:
+            SDL_AUDIODRIVER: dummy
+            SDL_VIDEODRIVER: dummy
+        - run: |
+            ls -lsa
+            ls -lsa renpy-dists
+            cp renpy-dists/renpy-pc.zip butter-pc.zip
+            cp renpy-dists/renpy-win.zip butter-win.zip
+            cp renpy-dists/renpy-mac.zip butter-mac.zip
+            cp renpy-dists/renpy-linux.tar.bz2 butter-linux.tar.bz2
+            cp renpy-dists/renpy-web.zip butter-web.zip
+
+        - uses: "marvinpinto/action-automatic-releases@latest"
+          if: github.event.client_payload.slash_command.args == ''
+          with:
+             repo_token: "${{ secrets.GITHUB_TOKEN }}"
+             automatic_release_tag: "latest"
+             prerelease: true
+             title: "Development Build"
+             files: |
+               butter-pc.zip
+               butter-win.zip
+               butter-mac.zip
+               butter-linux.tar.bz2
+               butter-web.zip
+
+        - uses: "marvinpinto/action-automatic-releases@latest"
+          if: github.event.client_payload.slash_command.args != ''
+          with:
+             repo_token: "${{ secrets.GITHUB_TOKEN }}"
+             automatic_release_tag: "${{ github.event.client_payload.slash_command.args }}"
+             prerelease: false
+             title: "Release Build ${{ github.event.client_payload.slash_command.args}}"
+             files: |
+               butter-pc.zip
+               butter-win.zip
+               butter-mac.zip
+               butter-linux.tar.bz2
+               butter-web.zip
